@@ -48,13 +48,13 @@ function! coc#cursor#get_selection(char) abort
   let [_, sl, sc, soff] = getpos(m ==# 'char' ? "'[" : "'<")
   let [_, el, ec, eoff] = getpos(m ==# 'char' ? "']" : "'>")
   let start_idx = coc#helper#get_charactor(getline(sl), sc)
+  let eline = getline(el)
   if m ==# 'V'
-    return [sl - 1, start_idx, el - 1, 0]
+    return [sl - 1, start_idx, el - 1, strlen(eline)]
   endif
-  let line = getline(el)
-  let end_idx = coc#helper#get_charactor(line, ec)
+  let end_idx = coc#helper#get_charactor(eline, ec)
   if m !=# 'char'
-    let end_idx = end_idx == strchars(line) ? end_idx : end_idx + 1
+    let end_idx = end_idx == strchars(eline) ? end_idx : end_idx + 1
   endif
   return [sl - 1, start_idx, el - 1, end_idx]
 endfunction
